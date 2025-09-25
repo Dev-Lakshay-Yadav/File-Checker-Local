@@ -11,6 +11,13 @@ export const checkerFunctionJU = async (
   folderData: FolderData,
   errors: string[]
 ): Promise<string[]> => {
+  
+  if (pdfData.service_Type !== "Digital Model") {
+    if (!(countFilesExt(folderData, [".html"]) > 0)) {
+      errors.push("At least 1 .html file required");
+    }
+  }
+
   // crown and bridge
   if (pdfData.service_Type === "Crown And Bridge") {
     if (!hasImageContaining(folderData, "occlusal contact")) {
@@ -84,8 +91,10 @@ export const checkerFunctionJU = async (
       errors.push("Missing image: hole angulation");
     }
     if (
-      !hasImageContaining(folderData, "3 mm hole") ||
-      !hasImageContaining(folderData, "3mm hole")
+      !(
+        hasImageContaining(folderData, "3 mm hole") ||
+        hasImageContaining(folderData, "3mm hole")
+      )
     ) {
       errors.push("Missing image: 3 mm hole");
     }
